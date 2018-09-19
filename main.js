@@ -1,5 +1,6 @@
 // This is the Main Logic for the Game
 
+resizeCanvas();
 var game = CreateGame();
 var GameMusic = new sound("Audio/Fine.mp3")
 var MusicPlaying = false;
@@ -51,13 +52,14 @@ function updateGameArea() {
     }
 
     block = game.obstacles[i]; // move to the next one
-    block.state = block.move(block);
-    block.draw(block, context);
+    
+    if (block) {
+      block = block.move(block);
+      block.draw(block, context);
 
-    if(collision(game.player.ship, block)) {
-      console.log("Hit a block!");
-      clearInterval(game.timer);
-      //gameOver();
+      if(collision(game.player.ship, block)) {
+        clearInterval(game.timer);
+      }
     }
   }
 
@@ -190,3 +192,20 @@ function sound(src) {
         this.sound.pause();
     }
 }
+
+// Manage the window sizeß
+function resizeCanvas() {
+  const borderMargin = 25;
+  const w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+  const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+  const adjWidth = w - (2 * borderMargin);
+  const adjHeight = h - (2 * borderMargin) - 150;
+
+  document.getElementById('GameBoard').setAttribute('width', adjWidth);
+  document.getElementById('GameBoard').setAttribute('height', adjHeight);
+}
+
+window.addEventListener("resize", function(){
+  resizeCanvas();
+});

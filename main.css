@@ -9,13 +9,10 @@
   align-self: center;
 }
 
-
 #GameBoard {
-    border: solid;
-    cursor: none;
-    position: absolute;
-    right: 145px;
-    top: 156px;
+  align-self: center;
+  border: solid;
+  cursor: none;
 }
 
 #MusicToggle {
