@@ -1,13 +1,30 @@
 // This is the Main Logic for the Game
 
 var game = CreateGame();
+var GameMusic = new sound("Audio/Fine.mp3")
+var MusicPlaying = false;
 
-function startGame() {
+function startGame() {  
   game = CreateGame();
   game.timer = setInterval(function () {
     updateGameArea();
     updateScore();
   }, 100);
+}
+
+function ToggleMusic() {
+
+    if (MusicPlaying) {
+        document.getElementById("MusicToggle").style.textDecoration = "line-through";
+        GameMusic.stop();
+        MusicPlaying = false;
+    }
+    else {
+        document.getElementById("MusicToggle").style.textDecoration = "none";
+        GameMusic.play();
+        MusicPlaying = true;
+    }
+    
 }
 
 function movePlayer() {
@@ -77,15 +94,15 @@ function CreateShip() {
   return {
     y: 0,
     topPoint: {x: 10},
-    frontPoint: {x: 20},
+    frontPoint: {x: 50},
     bottomPoint: {x: 10},
 
     move: (ship, y) => {
       ship.y = y;
 
-      ship.topPoint.y = y + 13;
-      ship.frontPoint.y = y + 10;
-      ship.bottomPoint.y = y + 7;
+      ship.topPoint.y = y + 40;
+      ship.frontPoint.y = y + 20;
+      ship.bottomPoint.y = y + 0;
       
       return ship;
     },
@@ -102,12 +119,12 @@ function CreateShip() {
 }
 
 function CreateBlock(canvas) {
-  const minWidth = 5;
-  const maxWidth = 15;
-  const minHeight = 5;
-  const maxHeight = 15;
-  const minVel = 1;
-  const maxVel = 5;
+  const minWidth = 25;
+  const maxWidth = 35;
+  const minHeight = 25;
+  const maxHeight = 45;
+  const minVel = 30;
+  const maxVel = 40;
   
   return {
     x: canvas.width,
@@ -157,4 +174,19 @@ function getRandomInt(min, max) {
 function getYPos(event, canvas) {
   const rect = canvas.getBoundingClientRect();
   return Math.floor(event.clientY - rect.top);
+}
+
+function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function () {
+        this.sound.play();
+    }
+    this.stop = function () {
+        this.sound.pause();
+    }
 }
