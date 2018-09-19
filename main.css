@@ -1,3 +1,7 @@
+body{
+    margin:0px;
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -10,18 +14,17 @@
   align-self: center;
 }
 
-
 #GameBoard {
     border: solid;
     cursor: none;
-    position: absolute;
-    right: 145px;
-    top: 156px;
     background-color:white;
+    align-self: center;
+    border: solid;
+    cursor: none;
 }
 
 #MusicToggle {
-    margin-left: 71px;
+    margin-left: 372px;
     font-size: 24px;
     text-decoration: line-through;
     cursor: pointer;
