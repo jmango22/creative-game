@@ -102,9 +102,12 @@ function CreateShip() {
     move: (ship, y) => {
       ship.y = y;
 
-      ship.topPoint.y = y + 40;
-      ship.frontPoint.y = y + 20;
-      ship.bottomPoint.y = y + 0;
+      const yOffset = Math.floor(getWindowSize().h/40);
+      console.log('yOffset: ' + yOffset);
+
+      ship.topPoint.y = y + (2 * yOffset);
+      ship.frontPoint.y = y + yOffset;
+      ship.bottomPoint.y = y;
       
       return ship;
     },
@@ -121,10 +124,12 @@ function CreateShip() {
 }
 
 function CreateBlock(canvas) {
-  const minWidth = 25;
-  const maxWidth = 35;
-  const minHeight = 25;
-  const maxHeight = 45;
+  const windowSize = getWindowSize();
+
+  const minWidth = windowSize.w/20;
+  const maxWidth = windowSize.w/8;
+  const minHeight = windowSize.h/20;
+  const maxHeight = windowSize.h/8;
   const minVel = 30;
   const maxVel = 40;
   
@@ -193,14 +198,20 @@ function sound(src) {
     }
 }
 
-// Manage the window sizeß
+// Manage the window size
+function getWindowSize() {
+  return {
+    w: Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
+    h: Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+  }
+}
+
 function resizeCanvas() {
   const borderMargin = 25;
-  const w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-  const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+  const windowSize = getWindowSize();
 
-  const adjWidth = w - (2 * borderMargin);
-  const adjHeight = h - (2 * borderMargin) - 150;
+  const adjWidth = windowSize.w - (2 * borderMargin);
+  const adjHeight = windowSize.h - (2 * borderMargin) - 150;
 
   document.getElementById('GameBoard').setAttribute('width', adjWidth);
   document.getElementById('GameBoard').setAttribute('height', adjHeight);
