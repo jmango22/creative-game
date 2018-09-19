@@ -2,6 +2,7 @@
 
 resizeCanvas();
 var game = CreateGame();
+initPlayer();
 var GameMusic = new sound("Audio/Fine.mp3")
 var MusicPlaying = false;
 
@@ -13,19 +14,22 @@ function startGame() {
   }, 100);
 }
 
-function ToggleMusic() {
+function initPlayer() {
+  game.player.ship = game.player.ship.move(game.player.ship, getWindowSize().h/20);
+  game.player.ship.draw(game.player.ship, game.canvas.getContext('2d'));
+}
 
-    if (MusicPlaying) {
-        document.getElementById("MusicToggle").style.textDecoration = "line-through";
-        GameMusic.stop();
-        MusicPlaying = false;
-    }
-    else {
-        document.getElementById("MusicToggle").style.textDecoration = "none";
-        GameMusic.play();
-        MusicPlaying = true;
-    }
-    
+function ToggleMusic() {
+  if (MusicPlaying) {
+    document.getElementById("MusicToggle").style.textDecoration = "line-through";
+    GameMusic.stop();
+    MusicPlaying = false;
+  }
+  else {
+    document.getElementById("MusicToggle").style.textDecoration = "none";
+    GameMusic.play();
+    MusicPlaying = true;
+  }
 }
 
 function movePlayer() {
@@ -103,7 +107,6 @@ function CreateShip() {
       ship.y = y;
 
       const yOffset = Math.floor(getWindowSize().h/40);
-      console.log('yOffset: ' + yOffset);
 
       ship.topPoint.y = y + (2 * yOffset);
       ship.frontPoint.y = y + yOffset;
