@@ -4,13 +4,23 @@
     <link rel="stylesheet" href="main.css">  
   </head>
   <body>
-    <div class="container">
-      <h1 class="center">Block Evader!</h1>
-      <span class="center" id="ScoreBoard">score: 0</span> 
-      <button class="center" onclick="startGame()">Play</button>
-        <div id="MusicToggle" onclick="ToggleMusic()">Music</div>
-      <canvas id="GameBoard" onmousemove="movePlayer()" height="600" width="1200"></canvas>
-    </div>
+      <div class="container">
+          <h1 class="center">Block Evader!</h1>
+          <span class="center" id="ScoreBoard">score: 0</span>
+          <button class="center" onclick="startGame()">Play</button>
+          <div id="OptionsMenu">
+              <div id="MusicToggle" onclick="ToggleMusic()">Music</div>
+              <div id="HelpToggle" onmouseover="DisplayHelpModal()" onmouseout="HideHelpModal()">
+                  <div id="HelpToggleText">Help</div>
+                  <div id="HelpModal">
+                      Click play then put your mouse in the box below.  You will notice the triangle
+                      in the box will follow the position of your mouse.  Move the triangle to avoid the
+                      flying boxes. If you get hit you loose.  See how far you can get!!!
+                  </div>
+              </div>
+          </div>
+          <canvas id="GameBoard" onmousemove="movePlayer()" height="600" width="1200"></canvas>
+      </div>
     <script type="text/javascript" src="main.js"></script>
   </body>
 </html>

@@ -5,8 +5,14 @@ var game = CreateGame();
 initPlayer();
 var GameMusic = new sound("Audio/Fine.mp3")
 var MusicPlaying = false;
+var GameStarted = false;
 
-function startGame() {  
+function startGame() {
+    if (GameStarted) {
+        clearInterval(game.timer);
+    }
+    GameStarted = true;
+    document.getElementById("GameBoard").style.cursor = "none";
   game = CreateGame();
   game.timer = setInterval(function () {
     updateGameArea();
@@ -62,7 +68,9 @@ function updateGameArea() {
       block.draw(block, context);
 
       if(collision(game.player.ship, block)) {
-        clearInterval(game.timer);
+          clearInterval(game.timer);
+          document.getElementById("GameBoard").style.cursor = "";
+          GameStarted = false;
       }
     }
   }
@@ -223,3 +231,11 @@ function resizeCanvas() {
 window.addEventListener("resize", function(){
   resizeCanvas();
 });
+
+function DisplayHelpModal() {
+    document.getElementById("HelpModal").style.display = "block";
+}
+
+function HideHelpModal() {
+    document.getElementById("HelpModal").style.display = "none";
+}
