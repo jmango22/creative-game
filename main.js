@@ -1,19 +1,15 @@
 // This is the Main Logic for the Game
 
-resizeCanvas();
 var game = CreateGame();
+
+resizeCanvas();
 initPlayer();
-var GameMusic = new sound("Audio/Fine.mp3")
-var MusicPlaying = false;
-var GameStarted = false;
 
 function startGame() {
-    if (GameStarted) {
-        clearInterval(game.timer);
-    }
-    GameStarted = true;
-    document.getElementById("GameBoard").style.cursor = "none";
-  game = CreateGame();
+  game = ClearGame(game);
+  if(game.timer) {
+    clearInterval(game.timer);
+  }
   game.timer = setInterval(function () {
     updateGameArea();
     updateScore();
@@ -21,21 +17,20 @@ function startGame() {
 }
 
 function initPlayer() {
-  game.player.ship = game.player.ship.move(game.player.ship, getWindowSize().h/20);
+  game.player.ship = game.player.ship.move(game.player.ship, getWindowSize().h/10);
   game.player.ship.draw(game.player.ship, game.canvas.getContext('2d'));
 }
 
 function ToggleMusic() {
-  if (MusicPlaying) {
+  if (game.music.playing) {
     document.getElementById("MusicToggle").style.textDecoration = "line-through";
-    GameMusic.stop();
-    MusicPlaying = false;
+    game.music.sound.stop();
   }
   else {
     document.getElementById("MusicToggle").style.textDecoration = "none";
-    GameMusic.play();
-    MusicPlaying = true;
+    game.music.sound.play();
   }
+  game.music.playing = !game.music.playing;
 }
 
 function movePlayer() {
@@ -85,6 +80,13 @@ function updateScore() {
 
 // Game Layout
 
+function ClearGame(game) {
+  game.obstacles = [CreateBlock(game.canvas)];
+  game.player.score = 0;
+  game.spawnWait = 8;
+  return game;
+}
+
 function CreateGame() {
   return {
     // Game Variables
@@ -93,7 +95,11 @@ function CreateGame() {
     // Game Peices
     canvas: document.getElementById('GameBoard'),
     obstacles: [],
-    player: CreatePlayer()
+    player: CreatePlayer(),
+    music: {
+      sound: new sound("Audio/Fine.mp3"),
+      playing: false
+    }
   }
 }
 
@@ -172,7 +178,7 @@ function CreateBlock(canvas) {
   }
 }
 
-// Helper math/geometry funtions
+// Helper Functions
 
 function collision(ship, block) {
   return pointInRect(ship.topPoint, block) || pointInRect(ship.frontPoint, block) || pointInRect(ship.bottomPoint, block);
